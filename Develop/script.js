@@ -2,7 +2,9 @@
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
 var save = $("[aria-label='save']");
-
+var currentTime = dayjs();
+console.log(currentTime);
+// var textElem = document.$().$(".col-8 col-md-10 description")
 
 
 
@@ -22,8 +24,22 @@ var save = $("[aria-label='save']");
 // THEN the saved events persist
 $( document ).ready(function() {
 $(save).on('click', event => {
-  console.log("clicked");
-});
+  var textareaValue = $('textarea').val();
+    
+    // Save the value in local storage
+    localStorage.setItem('textareaValue', textareaValue);
+    
+    console.log('Textarea value saved to local storage');
+    console.log(localStorage.getItem("textareaValue"));
+  }
+  // console.log($(this).parent('div').prevObject[0]);
+);
+
+// $.fn.saveEvent = function(){
+  
+
+// }
+
 $(function () {
 
 
