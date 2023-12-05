@@ -5,7 +5,7 @@
 For this assignment, I was tasked with making a planner that is able to change appearance based on time. I however, was only able to get the local storage functionality in place
 
 ## Deployment
-
+https://javreza.github.io/planner-challenge/
 
 ## Screenshot
 
