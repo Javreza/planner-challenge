@@ -1,66 +1,42 @@
-// Wrap all code that interacts with the DOM in a call to jQuery to ensure that
-// the code isn't run until the browser has finished rendering all the elements
-// in the html.
-var save = $("[aria-label='save']");
 var currentTime = dayjs();
 console.log(currentTime);
-// var textElem = document.$().$(".col-8 col-md-10 description")
+var timeSlot = $('.timeslot');
 
+$(document).ready(function() {
+  for (let i = 0; i <= 23; i++) {
+    console.log(`hour${i} = ` + localStorage.getItem(`hour${i}`));
+    let timeSlotContent;
 
+    if (localStorage.getItem(`hour${i}`) != null) {
+      timeSlotContent = `<div id="hour${i}" class="row time-block present">
+                           <div class="col-2 col-md-1 hour text-center py-3">${i}:00</div>
+                           <textarea id="taskText${i}" class="col-8 col-md-10 description" rows="3">${localStorage.getItem(`hour${i}`)}</textarea>
+                           <button id="saveButton${i}" class="btn saveBtn col-2 col-md-1" aria-label="save">
+                             <i class="fas fa-save" aria-hidden="true"></i>
+                           </button>
+                         </div>`;
+    } else {
+      timeSlotContent = `<div id="hour${i}" class="row time-block present">
+                           <div class="col-2 col-md-1 hour text-center py-3">${i}:00</div>
+                           <textarea id="taskText${i}" class="col-8 col-md-10 description" rows="3"></textarea>
+                           <button id="saveButton${i}" class="btn saveBtn col-2 col-md-1" aria-label="save">
+                             <i class="fas fa-save" aria-hidden="true"></i>
+                           </button>
+                         </div>`;
+    }
 
+    timeSlot.append(timeSlotContent);
 
-// GIVEN I am using a daily planner to create a schedule
-// WHEN I open the planner
-// THEN the current day is displayed at the top of the calendar
-// WHEN I scroll down
-// THEN I am presented with timeblocks for standard business hours of 9am&ndash;5pm
-// WHEN I view the timeblocks for that day
-// THEN each timeblock is color coded to indicate whether it is in the past, present, or future
-// WHEN I click into a timeblock
-// THEN I can enter an event
-// WHEN I click the save button for that timeblock
-// THEN the text for that event is saved in local storage
-// WHEN I refresh the page
-// THEN the saved events persist
-$( document ).ready(function() {
-$(save).on('click', event => {
-  var textareaValue = $('textarea').val();
-    
-    // Save the value in local storage
-    localStorage.setItem('textareaValue', textareaValue);
-    
-    console.log('Textarea value saved to local storage');
-    console.log(localStorage.getItem("textareaValue"));
+    // IIFE to capture the current value of i
+    (function(index) {
+      $("#saveButton" + index).on('click', function() {
+        var taskText = $("#taskText" + index).val();
+        localStorage.setItem(`hour${index}`, taskText);
+        console.log("Task for hour " + index + " = " + taskText);
+        console.log("Stored in localStorage: " + localStorage.getItem(`hour${index}`));
+      });
+    })(i);
   }
-  // console.log($(this).parent('div').prevObject[0]);
-);
-
-// $.fn.saveEvent = function(){
-  
-
-// }
-
-$(function () {
-
-
-  // TODO: Add a listener for click events on the save button. This code should
-  // use the id in the containing time-block as a key to save the user input in
-  // local storage. HINT: What does `this` reference in the click listener
-  // function? How can DOM traversal be used to get the "hour-x" id of the
-  // time-block containing the button that was clicked? How might the id be
-  // useful when saving the description in local storage?
-  //
-  // TODO: Add code to apply the past, present, or future class to each time
-  // block by comparing the id to the current hour. HINTS: How can the id
-  // attribute of each time-block be used to conditionally add or remove the
-  // past, present, and future classes? How can Day.js be used to get the
-  // current hour in 24-hour time?
-  //
-  // TODO: Add code to get any user input that was saved in localStorage and set
-  // the values of the corresponding textarea elements. HINT: How can the id
-  // attribute of each time-block be used to do this?
-  //
-  // TODO: Add code to display the current date in the header of the page.
 });
-console.log( "ready!" );
-});
+
+console.log("ready!");
